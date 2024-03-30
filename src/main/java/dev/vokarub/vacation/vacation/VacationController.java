@@ -18,9 +18,9 @@ public class VacationController {
     }
 
     @GetMapping("/calculate")
-    public double getVacationPayment(@RequestBody Vacation request) {
+    public Integer getVacationPayment(@RequestBody Vacation request) {
 
-        Double averageSalary = request.getAverageSalary();
+        Integer averageSalary = request.getAverageSalary();
         Integer vacationDaysCount = request.getVacationDaysCount();
         LocalDate vacationStartDate = request.getVacationStartDate();
 

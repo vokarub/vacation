@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 
 @Repository
 public class VacationRepository {
-    private List<Vacation> vacations = new ArrayList<>();
     private final double COEF = 29.3; //(365 дней − 14 праздничных дней в году) / 12 месяцев
 
-    public Double calculateVacationPayment (Double averageSalary, Integer vacationDaysCount){
-        return (averageSalary / COEF) * vacationDaysCount;
+    public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount){
+        isValidInput(averageSalary, vacationDaysCount);
+        return (int) (averageSalary / COEF) * vacationDaysCount;
     }
-    public Double calculateVacationPayment (Double averageSalary, Integer vacationDaysCount, LocalDate vacationStartDate) {
+    public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount, LocalDate vacationStartDate) {
+        isValidInput(averageSalary, vacationDaysCount);
+
         List<LocalDate> vacationDates = getDatesBetween(vacationStartDate, vacationStartDate.plusDays(vacationDaysCount));
         int nonWorkingDays = 0;
 
@@ -28,7 +30,7 @@ public class VacationRepository {
 
         int workingDays = vacationDates.size() - nonWorkingDays;
 
-        return (averageSalary / COEF) * workingDays;
+        return (int) (averageSalary / COEF) * workingDays;
     }
 
     public List<LocalDate> getDatesBetween (LocalDate startDate, LocalDate endDate){
@@ -60,22 +62,13 @@ public class VacationRepository {
         return false;
     }
 
-
-    //TESTING
-
-    public List<Vacation> getVacations() {
-        return vacations;
+    void isValidInput(Integer averageSalary, Integer vacationDaysCount) {
+        if (averageSalary == null || vacationDaysCount == null) {
+            throw new NullPointerException();
+        }
+        if (averageSalary < 0 || vacationDaysCount < 0) {
+            throw new IllegalArgumentException();
+        }
     }
 
-    @PostConstruct
-    private void init() {
-        vacations.add(new Vacation(10000.0, 14, LocalDate.of(2024, 1, 1)));
-        vacations.add(new Vacation(20000.0, 14, LocalDate.of(2024, 2, 2)));
-        vacations.add(new Vacation(90000.0, 14, LocalDate.of(2024, 3, 3)));
-        vacations.add(new Vacation(80000.0, 14, LocalDate.of(2024, 4, 4)));
-        vacations.add(new Vacation(70000.0, 14, LocalDate.of(2024, 5, 5)));
-        vacations.add(new Vacation(60000.0, 14, LocalDate.of(2024, 6, 6)));
-        vacations.add(new Vacation(40000.0, 14, LocalDate.of(2024, 7, 7)));
-
-    }
 }
