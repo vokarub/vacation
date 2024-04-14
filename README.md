@@ -5,15 +5,6 @@
 При запросе также можно указать точные дни ухода в отпуск, 
 тогда проводится рассчет отпускных с учётом праздников и выходных. 
 
-Вид запроса без даты:
-{
-    "averageSalary": 40000,
-    "vacationDaysCount": 5
-}
+Вид запроса без даты: localhost:8080/calculate?salary=45000&days=7
 
-Вид запроса с датой ухода в отпуск:
-{
-    "averageSalary": 40000,
-    "vacationDaysCount": 5,
-    "vacationStartDate": "2024-03-29"
-}
+Вид запроса с датой ухода в отпуск: localhost:8080/calculate/withdate?salary=45000&days=7&date=2024-06-06
