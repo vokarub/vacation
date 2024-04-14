@@ -13,8 +13,7 @@ public class Vacation {
     public Vacation(Integer averageSalary, Integer vacationDaysCount, LocalDate vacationStartDate) {
         this.averageSalary = averageSalary;
         this.vacationDaysCount = vacationDaysCount;
-        this.vacationStartDate = vacationStartDate; //опционально?
-
+        this.vacationStartDate = vacationStartDate;
     }
 
     public Integer getAverageSalary() {

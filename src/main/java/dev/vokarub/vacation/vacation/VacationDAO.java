@@ -2,22 +2,25 @@ package dev.vokarub.vacation.vacation;
 
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class VacationRepository {
+public class VacationDAO {
     private final double COEF = 29.3; //(365 дней − 14 праздничных дней в году) / 12 месяцев
 
-    public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount){
+    public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount) {
         isValidInput(averageSalary, vacationDaysCount);
         return (int) (averageSalary / COEF) * vacationDaysCount;
     }
+
+
     public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount, LocalDate vacationStartDate) {
         isValidInput(averageSalary, vacationDaysCount);
+        if (vacationStartDate == null){
+            return (int) (averageSalary / COEF) * vacationDaysCount;
+        }
 
         List<LocalDate> vacationDates = getDatesBetween(vacationStartDate, vacationStartDate.plusDays(vacationDaysCount));
         int nonWorkingDays = 0;

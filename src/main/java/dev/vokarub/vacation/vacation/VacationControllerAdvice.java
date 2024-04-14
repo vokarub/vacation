@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 @RestControllerAdvice
-public class VacationCalculatorControllerAdvice {
+public class VacationControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

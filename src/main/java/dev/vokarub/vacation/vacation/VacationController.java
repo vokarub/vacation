@@ -1,34 +1,35 @@
 package dev.vokarub.vacation.vacation;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
+@RequestMapping("/calculate")
 @RestController
 public class VacationController {
 
-    private final VacationRepository vacationRepository;
+    private final VacationDAO vacationDAO;
 
-    public VacationController(VacationRepository vacationRepository) {
-        this.vacationRepository = vacationRepository;
+    public VacationController(VacationDAO vacationDAO) {
+        this.vacationDAO = vacationDAO;
     }
 
-    @GetMapping("/calculate")
-    public Integer getVacationPayment(@RequestBody Vacation request) {
+    // localhost:8080/calculate?salary=45000&days=7
+    @GetMapping("")
+    public Integer getVacationPaymentWithoutDate(@RequestParam("salary") Integer averageSalary,
+                                                 @RequestParam("days") Integer vacationDaysCount) {
+        return vacationDAO.calculateVacationPayment(averageSalary, vacationDaysCount);
+    }
 
-        Integer averageSalary = request.getAverageSalary();
-        Integer vacationDaysCount = request.getVacationDaysCount();
-        LocalDate vacationStartDate = request.getVacationStartDate();
-
-        if (vacationStartDate != null) { //если есть дата начала отпуска
-            return vacationRepository.calculateVacationPayment(averageSalary, vacationDaysCount, vacationStartDate);
-        } else {
-            return vacationRepository.calculateVacationPayment(averageSalary, vacationDaysCount);
-        }
+    // localhost:8080/calculate/withdate?salary=45000&days=7&date=2024-06-06
+    @GetMapping("/withdate") // не получается ловить Null исключение через required=false, декомпозиция
+    public Integer getVacationPaymentWithDate(@RequestParam("salary") Integer averageSalary,
+                                                 @RequestParam("days") Integer vacationDaysCount,
+                                                 @RequestParam("date") String vacationStartDate){
+        return vacationDAO.calculateVacationPayment(averageSalary, vacationDaysCount, LocalDate.parse(vacationStartDate));
     }
 
 }
