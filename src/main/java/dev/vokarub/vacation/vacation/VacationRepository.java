@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class VacationDAO {
+public class VacationRepository {
     private final double COEF = 29.3; //(365 дней − 14 праздничных дней в году) / 12 месяцев
 
     public Integer calculateVacationPayment (Integer averageSalary, Integer vacationDaysCount) {

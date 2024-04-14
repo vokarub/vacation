@@ -11,17 +11,17 @@ import java.time.LocalDate;
 @RestController
 public class VacationController {
 
-    private final VacationDAO vacationDAO;
+    private final VacationRepository vacationRepository;
 
-    public VacationController(VacationDAO vacationDAO) {
-        this.vacationDAO = vacationDAO;
+    public VacationController(VacationRepository vacationRepository) {
+        this.vacationRepository = vacationRepository;
     }
 
     // localhost:8080/calculate?salary=45000&days=7
     @GetMapping("")
     public Integer getVacationPaymentWithoutDate(@RequestParam("salary") Integer averageSalary,
                                                  @RequestParam("days") Integer vacationDaysCount) {
-        return vacationDAO.calculateVacationPayment(averageSalary, vacationDaysCount);
+        return vacationRepository.calculateVacationPayment(averageSalary, vacationDaysCount);
     }
 
     // localhost:8080/calculate/withdate?salary=45000&days=7&date=2024-06-06
@@ -29,7 +29,7 @@ public class VacationController {
     public Integer getVacationPaymentWithDate(@RequestParam("salary") Integer averageSalary,
                                                  @RequestParam("days") Integer vacationDaysCount,
                                                  @RequestParam("date") String vacationStartDate){
-        return vacationDAO.calculateVacationPayment(averageSalary, vacationDaysCount, LocalDate.parse(vacationStartDate));
+        return vacationRepository.calculateVacationPayment(averageSalary, vacationDaysCount, LocalDate.parse(vacationStartDate));
     }
 
 }

@@ -8,20 +8,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VacationDAOTest {
+class VacationRepositoryTest {
 
-    VacationDAO vacationDAO;
+    VacationRepository vacationRepository;
     @BeforeEach
     void setUp() {
-        vacationDAO = new VacationDAO();
+        vacationRepository = new VacationRepository();
     }
     @Test
     void testCalculateVacationPaymentWithoutDate() {
-        assertEquals(34120, vacationDAO.calculateVacationPayment(100000, 10), "Результат должен быть 34120");
+        assertEquals(34120, vacationRepository.calculateVacationPayment(100000, 10), "Результат должен быть 34120");
     }
     @Test
     void testCalculateVacationPaymentWithDate() {
-        assertEquals(20472, vacationDAO.calculateVacationPayment(100000,
+        assertEquals(20472, vacationRepository.calculateVacationPayment(100000,
                 14, LocalDate.of(2022, 1, 1)), "Результат должен быть 20472");
     }
 
@@ -30,7 +30,7 @@ class VacationDAOTest {
         LocalDate startDate = LocalDate.of(2023, 6, 1);
         LocalDate endDate = LocalDate.of(2023, 6, 10);
 
-        List<LocalDate> dates = vacationDAO.getDatesBetween(startDate, endDate);
+        List<LocalDate> dates = vacationRepository.getDatesBetween(startDate, endDate);
 
         assertEquals(dates.size(), 10);
         assertEquals(dates.get(0), startDate);
